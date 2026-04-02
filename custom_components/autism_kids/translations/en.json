@@ -1,0 +1,37 @@
+{
+  "title": "Autism Kids Predictability Board",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up predictability board",
+        "description": "Choose the main entities used for the Home Status Board.",
+        "data": {
+          "kid_calendar": "Kid calendar",
+          "family_calendar": "Family calendar",
+          "weather": "Weather entity",
+          "person_one": "First person entity",
+          "person_one_name": "First person display name",
+          "person_two": "Second person entity",
+          "person_two_name": "Second person display name"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Board options",
+        "description": "Choose optional helpers and fallback text.",
+        "data": {
+          "special_change_text": "Special change input_text",
+          "dinner_text": "Dinner input_text",
+          "bedtime_helper": "Bedtime input_datetime",
+          "school_tomorrow": "School tomorrow input_boolean",
+          "now_fallback": "Now fallback text",
+          "next_fallback": "Next fallback text",
+          "later_fallback": "Later fallback text"
+        }
+      }
+    }
+  }
+}
