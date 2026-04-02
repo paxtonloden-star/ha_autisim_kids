@@ -24,7 +24,7 @@
     "step": {
       "init": {
         "title": "Board options",
-        "description": "Choose optional helpers, fallback text, and request notification behavior.",
+        "description": "Choose optional helpers, fallback text, request notifications, and timer settings.",
         "data": {
           "special_change_text": "Special change input_text",
           "dinner_text": "Dinner input_text",
@@ -34,7 +34,12 @@
           "next_fallback": "Next fallback text",
           "later_fallback": "Later fallback text",
           "request_notifications": "Create persistent notifications for requests",
-          "request_notification_title": "Request notification title"
+          "request_notification_title": "Request notification title",
+          "timer_notifications": "Create persistent notifications for timer completion",
+          "timer_notification_title": "Timer notification title",
+          "preset_1_minutes": "Preset 1 minutes",
+          "preset_2_minutes": "Preset 2 minutes",
+          "preset_3_minutes": "Preset 3 minutes"
         }
       }
     }

@@ -1,8 +1,0 @@
-{
-  "name": "Autism Kids Predictability Board",
-  "content_in_root": false,
-  "country": ["US"],
-  "homeassistant": ">=2025.1.0",
-  "render_readme": true,
-  "domains": ["autism_kids"]
-}

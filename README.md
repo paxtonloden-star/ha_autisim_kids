@@ -6,6 +6,7 @@ Autism-friendly Home Assistant dashboards and automations for predictability, co
 
 - Home Status Board for Predictability
 - Built-in Nonverbal Request Buttons
+- Built-in Visual Countdown Timer Board
 - Full custom integration under `custom_components/autism_kids`
 - Config flow and richer options flow
 - HACS configuration
@@ -23,7 +24,7 @@ Build simple, visual, low-demand Home Assistant experiences for kids with autism
 
 ## Current starter
 
-The current repo contains a starter setup for the **Home Status Board for Predictability** and **Nonverbal Request Buttons** as both:
+The current repo contains a starter setup for the **Home Status Board for Predictability**, **Nonverbal Request Buttons**, and **Visual Countdown Timer Board** as both:
 - a HACS-installable custom integration
 - standalone YAML examples for manual package-based setups
 
@@ -37,6 +38,7 @@ dashboards/
   my_day_dashboard.yaml
   request_buttons_example.yaml
   full_kids_board_example.yaml
+  visual_timer_example.yaml
 docs/
   installation.md
   customization.md
@@ -59,7 +61,7 @@ hacs.json
 3. Restart Home Assistant.
 4. Add the integration in **Settings > Devices & services**.
 5. Choose your calendars, people, weather entity, and helper entities in the config flow.
-6. Optionally enable built-in persistent notifications for request buttons in the options flow.
+6. Optionally enable built-in persistent notifications for request buttons and timer completion in the options flow.
 
 ## What the integration creates
 
@@ -75,6 +77,9 @@ Sensors:
 - Kid Weather Summary
 - Kid Last Request
 - Kid Last Request Time
+- Kid Timer Remaining
+- Kid Timer Status
+- Kid Timer Label
 
 Buttons:
 - Request Help
@@ -88,6 +93,16 @@ Buttons:
 - Request Mad
 - Request Sad
 - Request All Done
+- Start 2 Minute Timer
+- Start 5 Minute Timer
+- Start 10 Minute Timer
+- Start Custom Timer
+- Pause Timer
+- Resume Timer
+- Cancel Timer
+
+Numbers:
+- Custom Timer Minutes
 
 ## Notes
 

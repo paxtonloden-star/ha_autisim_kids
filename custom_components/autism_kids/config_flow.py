@@ -19,18 +19,28 @@ from .const import (
     CONF_PERSON_ONE_NAME,
     CONF_PERSON_TWO,
     CONF_PERSON_TWO_NAME,
+    CONF_PRESET_1_MINUTES,
+    CONF_PRESET_2_MINUTES,
+    CONF_PRESET_3_MINUTES,
     CONF_REQUEST_NOTIFICATIONS,
     CONF_REQUEST_NOTIFICATION_TITLE,
     CONF_SCHOOL_TOMORROW,
     CONF_SPECIAL_CHANGE_TEXT,
+    CONF_TIMER_NOTIFICATIONS,
+    CONF_TIMER_NOTIFICATION_TITLE,
     CONF_WEATHER,
     DEFAULT_LATER_FALLBACK,
     DEFAULT_NOW_FALLBACK,
     DEFAULT_NEXT_FALLBACK,
     DEFAULT_PERSON_ONE_NAME,
     DEFAULT_PERSON_TWO_NAME,
+    DEFAULT_PRESET_1_MINUTES,
+    DEFAULT_PRESET_2_MINUTES,
+    DEFAULT_PRESET_3_MINUTES,
     DEFAULT_REQUEST_NOTIFICATION_TITLE,
     DEFAULT_REQUEST_NOTIFICATIONS,
+    DEFAULT_TIMER_NOTIFICATION_TITLE,
+    DEFAULT_TIMER_NOTIFICATIONS,
     DOMAIN,
 )
 
@@ -99,6 +109,26 @@ def _options_schema(options: dict[str, Any] | None = None) -> vol.Schema:
                 CONF_REQUEST_NOTIFICATION_TITLE,
                 default=options.get(CONF_REQUEST_NOTIFICATION_TITLE, DEFAULT_REQUEST_NOTIFICATION_TITLE),
             ): str,
+            vol.Optional(
+                CONF_TIMER_NOTIFICATIONS,
+                default=options.get(CONF_TIMER_NOTIFICATIONS, DEFAULT_TIMER_NOTIFICATIONS),
+            ): bool,
+            vol.Optional(
+                CONF_TIMER_NOTIFICATION_TITLE,
+                default=options.get(CONF_TIMER_NOTIFICATION_TITLE, DEFAULT_TIMER_NOTIFICATION_TITLE),
+            ): str,
+            vol.Optional(
+                CONF_PRESET_1_MINUTES,
+                default=options.get(CONF_PRESET_1_MINUTES, DEFAULT_PRESET_1_MINUTES),
+            ): selector.NumberSelector(selector.NumberSelectorConfig(min=1, max=60, step=1, mode=selector.NumberSelectorMode.BOX)),
+            vol.Optional(
+                CONF_PRESET_2_MINUTES,
+                default=options.get(CONF_PRESET_2_MINUTES, DEFAULT_PRESET_2_MINUTES),
+            ): selector.NumberSelector(selector.NumberSelectorConfig(min=1, max=60, step=1, mode=selector.NumberSelectorMode.BOX)),
+            vol.Optional(
+                CONF_PRESET_3_MINUTES,
+                default=options.get(CONF_PRESET_3_MINUTES, DEFAULT_PRESET_3_MINUTES),
+            ): selector.NumberSelector(selector.NumberSelectorConfig(min=1, max=60, step=1, mode=selector.NumberSelectorMode.BOX)),
         }
     )
 
@@ -123,6 +153,11 @@ class AutismKidsConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     CONF_LATER_FALLBACK: DEFAULT_LATER_FALLBACK,
                     CONF_REQUEST_NOTIFICATIONS: DEFAULT_REQUEST_NOTIFICATIONS,
                     CONF_REQUEST_NOTIFICATION_TITLE: DEFAULT_REQUEST_NOTIFICATION_TITLE,
+                    CONF_TIMER_NOTIFICATIONS: DEFAULT_TIMER_NOTIFICATIONS,
+                    CONF_TIMER_NOTIFICATION_TITLE: DEFAULT_TIMER_NOTIFICATION_TITLE,
+                    CONF_PRESET_1_MINUTES: DEFAULT_PRESET_1_MINUTES,
+                    CONF_PRESET_2_MINUTES: DEFAULT_PRESET_2_MINUTES,
+                    CONF_PRESET_3_MINUTES: DEFAULT_PRESET_3_MINUTES,
                 },
             )
 

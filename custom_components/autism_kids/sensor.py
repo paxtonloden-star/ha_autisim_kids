@@ -35,7 +35,7 @@ from .coordinator import AutismKidsCoordinator
 
 @dataclass(frozen=True, kw_only=True)
 class AutismKidsSensorDescription(SensorEntityDescription):
-    value_fn: Callable[[HomeAssistant, ConfigEntry, AutismKidsCoordinator], str]
+    value_fn: Callable[[HomeAssistant, ConfigEntry, AutismKidsCoordinator], str | int]
 
 
 def _state(hass: HomeAssistant, entity_id: str | None) -> str:
@@ -53,6 +53,14 @@ def _attr(hass: HomeAssistant, entity_id: str | None, attr_name: str) -> str | N
         return None
     value = state.attributes.get(attr_name)
     return None if value is None else str(value)
+
+
+def _format_hhmmss(total_seconds: int) -> str:
+    total_seconds = max(total_seconds, 0)
+    hours = total_seconds // 3600
+    minutes = (total_seconds % 3600) // 60
+    seconds = total_seconds % 60
+    return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
 
 
 def _kid_now(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
@@ -145,73 +153,44 @@ def _last_request_time(hass: HomeAssistant, entry: ConfigEntry, coordinator: Aut
     return str(coordinator.data.get("last_request_time", "Not set"))
 
 
+def _timer_remaining(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
+    return _format_hhmmss(int(coordinator.data.get("timer_remaining_seconds", 0)))
+
+
+def _timer_remaining_seconds(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> int:
+    return int(coordinator.data.get("timer_remaining_seconds", 0))
+
+
+def _timer_status(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
+    if coordinator.data.get("timer_finished"):
+        return "Finished"
+    if coordinator.data.get("timer_running"):
+        return "Running"
+    if coordinator.data.get("timer_paused"):
+        return "Paused"
+    return "Idle"
+
+
+def _timer_label(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
+    return str(coordinator.data.get("timer_label", "Timer"))
+
+
 SENSORS: tuple[AutismKidsSensorDescription, ...] = (
-    AutismKidsSensorDescription(
-        key="kid_now_activity",
-        name="Kid Now Activity",
-        icon="mdi:play-circle",
-        value_fn=_kid_now,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_next_activity",
-        name="Kid Next Activity",
-        icon="mdi:skip-next-circle",
-        value_fn=_kid_next,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_later_activity",
-        name="Kid Later Activity",
-        icon="mdi:timeline-clock",
-        value_fn=_kid_later,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_who_is_home",
-        name="Kid Who Is Home",
-        icon="mdi:home-account",
-        value_fn=_kid_home,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_special_change_summary",
-        name="Kid Special Change Summary",
-        icon="mdi:calendar-alert",
-        value_fn=_special_change,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_dinner_summary",
-        name="Kid Dinner Summary",
-        icon="mdi:silverware-fork-knife",
-        value_fn=_dinner,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_bedtime_summary",
-        name="Kid Bedtime Summary",
-        icon="mdi:bed-clock",
-        value_fn=_bedtime,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_school_tomorrow_summary",
-        name="Kid School Tomorrow Summary",
-        icon="mdi:school",
-        value_fn=_school_tomorrow,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_weather_summary",
-        name="Kid Weather Summary",
-        icon="mdi:weather-partly-cloudy",
-        value_fn=_weather,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_last_request",
-        name="Kid Last Request",
-        icon="mdi:message-text-fast",
-        value_fn=_last_request,
-    ),
-    AutismKidsSensorDescription(
-        key="kid_last_request_time",
-        name="Kid Last Request Time",
-        icon="mdi:clock-outline",
-        value_fn=_last_request_time,
-    ),
+    AutismKidsSensorDescription(key="kid_now_activity", name="Kid Now Activity", icon="mdi:play-circle", value_fn=_kid_now),
+    AutismKidsSensorDescription(key="kid_next_activity", name="Kid Next Activity", icon="mdi:skip-next-circle", value_fn=_kid_next),
+    AutismKidsSensorDescription(key="kid_later_activity", name="Kid Later Activity", icon="mdi:timeline-clock", value_fn=_kid_later),
+    AutismKidsSensorDescription(key="kid_who_is_home", name="Kid Who Is Home", icon="mdi:home-account", value_fn=_kid_home),
+    AutismKidsSensorDescription(key="kid_special_change_summary", name="Kid Special Change Summary", icon="mdi:calendar-alert", value_fn=_special_change),
+    AutismKidsSensorDescription(key="kid_dinner_summary", name="Kid Dinner Summary", icon="mdi:silverware-fork-knife", value_fn=_dinner),
+    AutismKidsSensorDescription(key="kid_bedtime_summary", name="Kid Bedtime Summary", icon="mdi:bed-clock", value_fn=_bedtime),
+    AutismKidsSensorDescription(key="kid_school_tomorrow_summary", name="Kid School Tomorrow Summary", icon="mdi:school", value_fn=_school_tomorrow),
+    AutismKidsSensorDescription(key="kid_weather_summary", name="Kid Weather Summary", icon="mdi:weather-partly-cloudy", value_fn=_weather),
+    AutismKidsSensorDescription(key="kid_last_request", name="Kid Last Request", icon="mdi:message-text-fast", value_fn=_last_request),
+    AutismKidsSensorDescription(key="kid_last_request_time", name="Kid Last Request Time", icon="mdi:clock-outline", value_fn=_last_request_time),
+    AutismKidsSensorDescription(key="kid_timer_remaining", name="Kid Timer Remaining", icon="mdi:timer-sand", value_fn=_timer_remaining),
+    AutismKidsSensorDescription(key="kid_timer_remaining_seconds", name="Kid Timer Remaining Seconds", icon="mdi:timer-outline", value_fn=_timer_remaining_seconds),
+    AutismKidsSensorDescription(key="kid_timer_status", name="Kid Timer Status", icon="mdi:progress-clock", value_fn=_timer_status),
+    AutismKidsSensorDescription(key="kid_timer_label", name="Kid Timer Label", icon="mdi:form-textbox", value_fn=_timer_label),
 )
 
 
@@ -221,20 +200,13 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     coordinator: AutismKidsCoordinator = hass.data[DOMAIN][entry.entry_id]
-    async_add_entities(
-        AutismKidsSensor(coordinator, entry, description) for description in SENSORS
-    )
+    async_add_entities(AutismKidsSensor(coordinator, entry, description) for description in SENSORS)
 
 
 class AutismKidsSensor(CoordinatorEntity[AutismKidsCoordinator], SensorEntity):
     entity_description: AutismKidsSensorDescription
 
-    def __init__(
-        self,
-        coordinator: AutismKidsCoordinator,
-        entry: ConfigEntry,
-        description: AutismKidsSensorDescription,
-    ) -> None:
+    def __init__(self, coordinator: AutismKidsCoordinator, entry: ConfigEntry, description: AutismKidsSensorDescription) -> None:
         super().__init__(coordinator)
         self._entry = entry
         self.entity_description = description
@@ -250,5 +222,5 @@ class AutismKidsSensor(CoordinatorEntity[AutismKidsCoordinator], SensorEntity):
         )
 
     @property
-    def native_value(self) -> str:
+    def native_value(self) -> str | int:
         return self.entity_description.value_fn(self.hass, self._entry, self.coordinator)

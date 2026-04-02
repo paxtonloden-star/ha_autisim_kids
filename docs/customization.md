@@ -20,8 +20,13 @@ The options flow lets you choose helper entities and fallback text:
 - now fallback text
 - next fallback text
 - later fallback text
-- create persistent notifications for request buttons
+- create persistent notifications for requests
 - request notification title
+- create persistent notifications for timer completion
+- timer notification title
+- preset 1 minutes
+- preset 2 minutes
+- preset 3 minutes
 
 ## Built-in request buttons
 
@@ -32,6 +37,19 @@ When pressed, they update:
 - Kid Last Request Time
 
 If request notifications are enabled, they also create a persistent notification in Home Assistant.
+
+## Built-in visual timer
+
+The integration creates timer controls and sensors:
+- Custom Timer Minutes number
+- preset start buttons
+- custom start button
+- pause, resume, and cancel buttons
+- Kid Timer Remaining
+- Kid Timer Status
+- Kid Timer Label
+
+If timer notifications are enabled, completing a timer creates a persistent notification.
 
 ## Suggested kid-friendly improvements
 

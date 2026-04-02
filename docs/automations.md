@@ -36,6 +36,39 @@ automation:
           entity_id: scene.calm_mode
 ```
 
+## Reacting to timer state
+
+```yaml
+automation:
+  - alias: Turn room light yellow when timer is paused
+    triggers:
+      - trigger: state
+        entity_id: sensor.kid_timer_status
+        to: Paused
+    actions:
+      - action: light.turn_on
+        target:
+          entity_id: light.kid_room
+        data:
+          color_name: yellow
+```
+
+```yaml
+automation:
+  - alias: Chime when timer finishes
+    triggers:
+      - trigger: state
+        entity_id: sensor.kid_timer_status
+        to: Finished
+    actions:
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.kid_room_speaker
+        data:
+          media_content_id: media-source://media_source/local/chime.mp3
+          media_content_type: audio/mpeg
+```
+
 ## Persistent notification option
 
-If you enable request notifications in the integration options, button presses will also create a persistent notification in Home Assistant.
+If you enable request notifications or timer notifications in the integration options, those events also create a persistent notification in Home Assistant.

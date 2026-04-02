@@ -1,5 +1,5 @@
 DOMAIN = "autism_kids"
-PLATFORMS = ["sensor", "button"]
+PLATFORMS = ["sensor", "button", "number"]
 
 CONF_KID_CALENDAR = "kid_calendar"
 CONF_FAMILY_CALENDAR = "family_calendar"
@@ -17,6 +17,11 @@ CONF_NEXT_FALLBACK = "next_fallback"
 CONF_LATER_FALLBACK = "later_fallback"
 CONF_REQUEST_NOTIFICATIONS = "request_notifications"
 CONF_REQUEST_NOTIFICATION_TITLE = "request_notification_title"
+CONF_TIMER_NOTIFICATIONS = "timer_notifications"
+CONF_TIMER_NOTIFICATION_TITLE = "timer_notification_title"
+CONF_PRESET_1_MINUTES = "preset_1_minutes"
+CONF_PRESET_2_MINUTES = "preset_2_minutes"
+CONF_PRESET_3_MINUTES = "preset_3_minutes"
 
 DEFAULT_PERSON_ONE_NAME = "Mom"
 DEFAULT_PERSON_TWO_NAME = "Dad"
@@ -25,3 +30,8 @@ DEFAULT_NEXT_FALLBACK = "Check Board"
 DEFAULT_LATER_FALLBACK = "Dinner"
 DEFAULT_REQUEST_NOTIFICATIONS = True
 DEFAULT_REQUEST_NOTIFICATION_TITLE = "Kid Request"
+DEFAULT_TIMER_NOTIFICATIONS = True
+DEFAULT_TIMER_NOTIFICATION_TITLE = "Timer Finished"
+DEFAULT_PRESET_1_MINUTES = 2
+DEFAULT_PRESET_2_MINUTES = 5
+DEFAULT_PRESET_3_MINUTES = 10
