@@ -6,6 +6,7 @@ from typing import Callable
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -34,7 +35,7 @@ from .coordinator import AutismKidsCoordinator
 
 @dataclass(frozen=True, kw_only=True)
 class AutismKidsSensorDescription(SensorEntityDescription):
-    value_fn: Callable[[HomeAssistant, ConfigEntry], str]
+    value_fn: Callable[[HomeAssistant, ConfigEntry, AutismKidsCoordinator], str]
 
 
 def _state(hass: HomeAssistant, entity_id: str | None) -> str:
@@ -54,7 +55,7 @@ def _attr(hass: HomeAssistant, entity_id: str | None, attr_name: str) -> str | N
     return None if value is None else str(value)
 
 
-def _kid_now(hass: HomeAssistant, entry: ConfigEntry) -> str:
+def _kid_now(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
     calendar_id = entry.data.get(CONF_KID_CALENDAR)
     msg = _attr(hass, calendar_id, "message")
     state = _state(hass, calendar_id)
@@ -63,7 +64,7 @@ def _kid_now(hass: HomeAssistant, entry: ConfigEntry) -> str:
     return entry.options.get(CONF_NOW_FALLBACK, DEFAULT_NOW_FALLBACK)
 
 
-def _kid_next(hass: HomeAssistant, entry: ConfigEntry) -> str:
+def _kid_next(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
     calendar_id = entry.data.get(CONF_FAMILY_CALENDAR)
     msg = _attr(hass, calendar_id, "message")
     start_time = _attr(hass, calendar_id, "start_time")
@@ -72,11 +73,11 @@ def _kid_next(hass: HomeAssistant, entry: ConfigEntry) -> str:
     return entry.options.get(CONF_NEXT_FALLBACK, DEFAULT_NEXT_FALLBACK)
 
 
-def _kid_later(hass: HomeAssistant, entry: ConfigEntry) -> str:
+def _kid_later(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
     return entry.options.get(CONF_LATER_FALLBACK, DEFAULT_LATER_FALLBACK)
 
 
-def _kid_home(hass: HomeAssistant, entry: ConfigEntry) -> str:
+def _kid_home(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
     names: list[str] = []
     person_one = entry.data.get(CONF_PERSON_ONE)
     person_two = entry.data.get(CONF_PERSON_TWO)
@@ -97,35 +98,35 @@ def _kid_home(hass: HomeAssistant, entry: ConfigEntry) -> str:
     return f"{', '.join(names)} are home"
 
 
-def _special_change(hass: HomeAssistant, entry: ConfigEntry) -> str:
+def _special_change(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
     text = _state(hass, entry.options.get(CONF_SPECIAL_CHANGE_TEXT))
     if text in {"", "unknown", "unavailable", "none"}:
         return "No special changes today"
     return text
 
 
-def _dinner(hass: HomeAssistant, entry: ConfigEntry) -> str:
+def _dinner(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
     text = _state(hass, entry.options.get(CONF_DINNER_TEXT))
     if text in {"", "unknown", "unavailable", "none"}:
         return "Dinner not set"
     return text
 
 
-def _bedtime(hass: HomeAssistant, entry: ConfigEntry) -> str:
+def _bedtime(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
     text = _state(hass, entry.options.get(CONF_BEDTIME_HELPER))
     if text in {"", "unknown", "unavailable", "none"}:
         return "Bedtime not set"
     return f"Bedtime at {text[:5]}"
 
 
-def _school_tomorrow(hass: HomeAssistant, entry: ConfigEntry) -> str:
+def _school_tomorrow(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
     state = _state(hass, entry.options.get(CONF_SCHOOL_TOMORROW))
     if state == "on":
         return "School tomorrow"
     return "No school tomorrow"
 
 
-def _weather(hass: HomeAssistant, entry: ConfigEntry) -> str:
+def _weather(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
     weather_id = entry.data.get(CONF_WEATHER)
     condition = _state(hass, weather_id)
     temp = _attr(hass, weather_id, "temperature")
@@ -134,6 +135,14 @@ def _weather(hass: HomeAssistant, entry: ConfigEntry) -> str:
     if temp:
         return f"{condition.replace('_', ' ').title()}, {temp}°"
     return condition.replace("_", " ").title()
+
+
+def _last_request(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
+    return str(coordinator.data.get("last_request", "No requests yet"))
+
+
+def _last_request_time(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
+    return str(coordinator.data.get("last_request_time", "Not set"))
 
 
 SENSORS: tuple[AutismKidsSensorDescription, ...] = (
@@ -191,6 +200,18 @@ SENSORS: tuple[AutismKidsSensorDescription, ...] = (
         icon="mdi:weather-partly-cloudy",
         value_fn=_weather,
     ),
+    AutismKidsSensorDescription(
+        key="kid_last_request",
+        name="Kid Last Request",
+        icon="mdi:message-text-fast",
+        value_fn=_last_request,
+    ),
+    AutismKidsSensorDescription(
+        key="kid_last_request_time",
+        name="Kid Last Request Time",
+        icon="mdi:clock-outline",
+        value_fn=_last_request_time,
+    ),
 )
 
 
@@ -220,5 +241,14 @@ class AutismKidsSensor(CoordinatorEntity[AutismKidsCoordinator], SensorEntity):
         self._attr_unique_id = f"{entry.entry_id}_{description.key}"
 
     @property
+    def device_info(self) -> DeviceInfo:
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._entry.entry_id)},
+            name="Autism Kids Predictability Board",
+            manufacturer="Paxton Loden",
+            model="Predictability Board",
+        )
+
+    @property
     def native_value(self) -> str:
-        return self.entity_description.value_fn(self.hass, self._entry)
+        return self.entity_description.value_fn(self.hass, self._entry, self.coordinator)

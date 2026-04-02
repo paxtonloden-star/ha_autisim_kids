@@ -5,11 +5,12 @@ Autism-friendly Home Assistant dashboards and automations for predictability, co
 ## Included now
 
 - Home Status Board for Predictability
+- Built-in Nonverbal Request Buttons
 - Full custom integration under `custom_components/autism_kids`
-- Config flow and options flow
+- Config flow and richer options flow
 - HACS configuration
 - HACS and hassfest validation workflows
-- Example YAML package and Lovelace dashboard
+- Example YAML dashboards and manual package examples
 
 ## Project goals
 
@@ -22,7 +23,7 @@ Build simple, visual, low-demand Home Assistant experiences for kids with autism
 
 ## Current starter
 
-The current repo contains a full starter setup for the **Home Status Board for Predictability** as both:
+The current repo contains a starter setup for the **Home Status Board for Predictability** and **Nonverbal Request Buttons** as both:
 - a HACS-installable custom integration
 - standalone YAML examples for manual package-based setups
 
@@ -34,9 +35,12 @@ packages/
   kids_home_status_board.yaml
 dashboards/
   my_day_dashboard.yaml
+  request_buttons_example.yaml
+  full_kids_board_example.yaml
 docs/
   installation.md
   customization.md
+  automations.md
   roadmap.md
 helpers/
   example-helper-values.yaml
@@ -55,6 +59,35 @@ hacs.json
 3. Restart Home Assistant.
 4. Add the integration in **Settings > Devices & services**.
 5. Choose your calendars, people, weather entity, and helper entities in the config flow.
+6. Optionally enable built-in persistent notifications for request buttons in the options flow.
+
+## What the integration creates
+
+Sensors:
+- Kid Now Activity
+- Kid Next Activity
+- Kid Later Activity
+- Kid Who Is Home
+- Kid Special Change Summary
+- Kid Dinner Summary
+- Kid Bedtime Summary
+- Kid School Tomorrow Summary
+- Kid Weather Summary
+- Kid Last Request
+- Kid Last Request Time
+
+Buttons:
+- Request Help
+- Request Drink
+- Request Snack
+- Request Bathroom
+- Request Break
+- Request Hug
+- Request Quiet
+- Request Too Loud
+- Request Mad
+- Request Sad
+- Request All Done
 
 ## Notes
 

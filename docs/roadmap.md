@@ -2,12 +2,14 @@
 
 ## Current
 - Home Status Board for Predictability
+- Built-in Nonverbal Request Buttons
 - Custom integration with config flow
 - HACS configuration
 
 ## Next
-- Nonverbal Request Buttons
 - Visual Countdown Timer Board
+- Better calendar sequencing for next and later
+- request acknowledgement workflow
 
 ## Future ideas
 - First/Then board

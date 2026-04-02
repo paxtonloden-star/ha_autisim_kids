@@ -1,0 +1,63 @@
+title: Kids Board
+path: kids-board
+icon: mdi:view-dashboard
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown
+        content: |
+          # My Day
+          **Now:** {{ states('sensor.kid_now_activity') }}
+          **Next:** {{ states('sensor.kid_next_activity') }}
+          **Later:** {{ states('sensor.kid_later_activity') }}
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: tile
+            entity: sensor.kid_who_is_home
+            name: Who is home
+          - type: tile
+            entity: sensor.kid_weather_summary
+            name: Weather
+          - type: tile
+            entity: sensor.kid_dinner_summary
+            name: Dinner
+          - type: tile
+            entity: sensor.kid_bedtime_summary
+            name: Bedtime
+          - type: tile
+            entity: sensor.kid_school_tomorrow_summary
+            name: Tomorrow
+          - type: tile
+            entity: sensor.kid_special_change_summary
+            name: Special change
+  - type: vertical-stack
+    cards:
+      - type: markdown
+        content: |
+          # I Need
+          Last request: **{{ states('sensor.kid_last_request') }}**
+          Time: **{{ states('sensor.kid_last_request_time') }}**
+      - type: grid
+        columns: 3
+        square: false
+        cards:
+          - type: tile
+            entity: button.request_help
+            name: Help
+          - type: tile
+            entity: button.request_drink
+            name: Drink
+          - type: tile
+            entity: button.request_bathroom
+            name: Bathroom
+          - type: tile
+            entity: button.request_break
+            name: Break
+          - type: tile
+            entity: button.request_quiet
+            name: Quiet
+          - type: tile
+            entity: button.request_too_loud
+            name: Too Loud

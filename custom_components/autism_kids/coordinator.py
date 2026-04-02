@@ -8,6 +8,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.util import dt as dt_util
 
 from .const import (
     CONF_BEDTIME_HELPER,
@@ -41,7 +42,13 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Refresh the coordinator."""
-        return {"last_update": self.hass.loop.time()}
+        current = self.data if isinstance(self.data, dict) else {}
+        return {
+            **current,
+            "last_update": self.hass.loop.time(),
+            "last_request": current.get("last_request", "No requests yet"),
+            "last_request_time": current.get("last_request_time", "Not set"),
+        }
 
     async def async_config_entry_first_refresh(self) -> None:
         """Refresh and attach listeners."""
@@ -74,7 +81,26 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     @callback
     def _handle_source_update(self, event: Any) -> None:
         """Handle source state updates."""
-        self.async_set_updated_data({"last_update": self.hass.loop.time()})
+        current = self.data if isinstance(self.data, dict) else {}
+        self.async_set_updated_data(
+            {
+                **current,
+                "last_update": self.hass.loop.time(),
+            }
+        )
+
+    @callback
+    def async_set_last_request(self, request_label: str) -> None:
+        """Update the in-memory request state."""
+        current = self.data if isinstance(self.data, dict) else {}
+        self.async_set_updated_data(
+            {
+                **current,
+                "last_update": self.hass.loop.time(),
+                "last_request": request_label,
+                "last_request_time": dt_util.now().strftime("%-I:%M %p"),
+            }
+        )
 
     async def async_shutdown(self) -> None:
         """Clean up listeners."""

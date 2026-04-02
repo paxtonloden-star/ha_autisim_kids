@@ -1,6 +1,9 @@
 {
   "title": "Autism Kids Predictability Board",
   "config": {
+    "abort": {
+      "already_configured": "This integration is already configured."
+    },
     "step": {
       "user": {
         "title": "Set up predictability board",
@@ -21,7 +24,7 @@
     "step": {
       "init": {
         "title": "Board options",
-        "description": "Choose optional helpers and fallback text.",
+        "description": "Choose optional helpers, fallback text, and request notification behavior.",
         "data": {
           "special_change_text": "Special change input_text",
           "dinner_text": "Dinner input_text",
@@ -29,7 +32,9 @@
           "school_tomorrow": "School tomorrow input_boolean",
           "now_fallback": "Now fallback text",
           "next_fallback": "Next fallback text",
-          "later_fallback": "Later fallback text"
+          "later_fallback": "Later fallback text",
+          "request_notifications": "Create persistent notifications for requests",
+          "request_notification_title": "Request notification title"
         }
       }
     }

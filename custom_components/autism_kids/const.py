@@ -1,5 +1,5 @@
 DOMAIN = "autism_kids"
-PLATFORMS = ["sensor"]
+PLATFORMS = ["sensor", "button"]
 
 CONF_KID_CALENDAR = "kid_calendar"
 CONF_FAMILY_CALENDAR = "family_calendar"
@@ -15,9 +15,13 @@ CONF_SCHOOL_TOMORROW = "school_tomorrow"
 CONF_NOW_FALLBACK = "now_fallback"
 CONF_NEXT_FALLBACK = "next_fallback"
 CONF_LATER_FALLBACK = "later_fallback"
+CONF_REQUEST_NOTIFICATIONS = "request_notifications"
+CONF_REQUEST_NOTIFICATION_TITLE = "request_notification_title"
 
 DEFAULT_PERSON_ONE_NAME = "Mom"
 DEFAULT_PERSON_TWO_NAME = "Dad"
 DEFAULT_NOW_FALLBACK = "Free Time"
 DEFAULT_NEXT_FALLBACK = "Check Board"
 DEFAULT_LATER_FALLBACK = "Dinner"
+DEFAULT_REQUEST_NOTIFICATIONS = True
+DEFAULT_REQUEST_NOTIFICATION_TITLE = "Kid Request"
