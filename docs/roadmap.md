@@ -2,6 +2,8 @@
 
 ## Current
 - Home Status Board for Predictability
+- Custom integration with config flow
+- HACS configuration
 
 ## Next
 - Nonverbal Request Buttons

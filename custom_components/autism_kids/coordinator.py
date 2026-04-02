@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from logging import getLogger
 from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
@@ -21,6 +22,8 @@ from .const import (
     DOMAIN,
 )
 
+_LOGGER = getLogger(__name__)
+
 
 class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Coordinator for Autism Kids board state refreshes."""
@@ -29,7 +32,7 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         """Initialize the coordinator."""
         super().__init__(
             hass,
-            logger=None,
+            _LOGGER,
             name=DOMAIN,
             update_interval=timedelta(minutes=5),
         )
@@ -69,7 +72,7 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             )
 
     @callback
-    def _handle_source_update(self, event) -> None:
+    def _handle_source_update(self, event: Any) -> None:
         """Handle source state updates."""
         self.async_set_updated_data({"last_update": self.hass.loop.time()})
 

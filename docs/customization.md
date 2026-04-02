@@ -1,6 +1,6 @@
 # Customization
 
-## Replace placeholder entities
+## Replace placeholder entities in YAML examples
 
 Update these to your real Home Assistant entities:
 - calendar.kid_schedule
@@ -9,20 +9,17 @@ Update these to your real Home Assistant entities:
 - person.dad
 - weather.home
 
-## Change displayed names
+## Integration options
 
-The who-is-home sensor currently displays Mom and Dad. Edit the package if you want different names.
-
-## Set defaults
-
-You can use these helpers for quick updates:
-- input_text.kid_special_change_text
-- input_text.kid_dinner_text
-- input_text.kid_now_fallback
-- input_text.kid_next_fallback
-- input_text.kid_later_fallback
-- input_datetime.kid_bedtime
-- input_boolean.kid_school_tomorrow
+The config flow sets the core entities.
+The options flow lets you choose helper entities and fallback text:
+- special change input_text
+- dinner input_text
+- bedtime input_datetime
+- school tomorrow input_boolean
+- now fallback text
+- next fallback text
+- later fallback text
 
 ## Suggested kid-friendly improvements
 

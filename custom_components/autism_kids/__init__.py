@@ -7,15 +7,12 @@ from .const import DOMAIN, PLATFORMS
 from .coordinator import AutismKidsCoordinator
 
 
-type AutismKidsConfigEntry = ConfigEntry
-
-
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Set up the Autism Kids integration."""
     return True
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: AutismKidsConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Autism Kids from a config entry."""
     coordinator = AutismKidsCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -25,9 +22,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: AutismKidsConfigEntry) -
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: AutismKidsConfigEntry) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unload_ok:
-        hass.data[DOMAIN].pop(entry.entry_id)
+        coordinator: AutismKidsCoordinator = hass.data[DOMAIN].pop(entry.entry_id)
+        await coordinator.async_shutdown()
     return unload_ok
