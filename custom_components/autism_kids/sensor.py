@@ -10,26 +10,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import (
-    CONF_BEDTIME_HELPER,
-    CONF_DINNER_TEXT,
-    CONF_FAMILY_CALENDAR,
-    CONF_KID_CALENDAR,
-    CONF_LATER_FALLBACK,
-    CONF_NOW_FALLBACK,
-    CONF_NEXT_FALLBACK,
-    CONF_PERSON_ONE,
-    CONF_PERSON_ONE_NAME,
-    CONF_PERSON_TWO,
-    CONF_PERSON_TWO_NAME,
-    CONF_SCHOOL_TOMORROW,
-    CONF_SPECIAL_CHANGE_TEXT,
-    CONF_WEATHER,
-    DEFAULT_LATER_FALLBACK,
-    DEFAULT_NEXT_FALLBACK,
-    DEFAULT_NOW_FALLBACK,
-    DOMAIN,
-)
+from .const import *
 from .coordinator import AutismKidsCoordinator
 
 
@@ -99,22 +80,22 @@ def _kid_home(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCo
 
 
 def _special_change(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
-    text = _state(hass, entry.options.get(CONF_SPECIAL_CHANGE_TEXT))
-    return "No special changes today" if text in {"", "unknown", "unavailable", "none"} else text
+    return str(coordinator.data.get(DATA_SPECIAL_CHANGE_TEXT, "No special changes today"))
 
 
 def _dinner(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
-    text = _state(hass, entry.options.get(CONF_DINNER_TEXT))
-    return "Dinner not set" if text in {"", "unknown", "unavailable", "none"} else text
+    return str(coordinator.data.get(DATA_DINNER_TEXT, "Dinner not set"))
 
 
 def _bedtime(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
-    text = _state(hass, entry.options.get(CONF_BEDTIME_HELPER))
-    return "Bedtime not set" if text in {"", "unknown", "unavailable", "none"} else f"Bedtime at {text[:5]}"
+    bedtime = coordinator.data.get(DATA_BEDTIME)
+    if bedtime is None:
+        return "Bedtime not set"
+    return f"Bedtime at {bedtime.strftime('%-I:%M %p')}"
 
 
 def _school_tomorrow(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:
-    return "School tomorrow" if _state(hass, entry.options.get(CONF_SCHOOL_TOMORROW)) == "on" else "No school tomorrow"
+    return "School tomorrow" if coordinator.data.get(DATA_SCHOOL_TOMORROW, True) else "No school tomorrow"
 
 
 def _weather(hass: HomeAssistant, entry: ConfigEntry, coordinator: AutismKidsCoordinator) -> str:

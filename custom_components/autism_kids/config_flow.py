@@ -5,42 +5,7 @@ from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers import selector
 
-from .const import (
-    CONF_BEDTIME_HELPER,
-    CONF_DINNER_TEXT,
-    CONF_FAMILY_CALENDAR,
-    CONF_KID_CALENDAR,
-    CONF_LATER_FALLBACK,
-    CONF_NOW_FALLBACK,
-    CONF_NEXT_FALLBACK,
-    CONF_PERSON_ONE,
-    CONF_PERSON_ONE_NAME,
-    CONF_PERSON_TWO,
-    CONF_PERSON_TWO_NAME,
-    CONF_PRESET_1_MINUTES,
-    CONF_PRESET_2_MINUTES,
-    CONF_PRESET_3_MINUTES,
-    CONF_REQUEST_NOTIFICATIONS,
-    CONF_REQUEST_NOTIFICATION_TITLE,
-    CONF_SCHOOL_TOMORROW,
-    CONF_SPECIAL_CHANGE_TEXT,
-    CONF_TIMER_NOTIFICATIONS,
-    CONF_TIMER_NOTIFICATION_TITLE,
-    CONF_WEATHER,
-    DEFAULT_LATER_FALLBACK,
-    DEFAULT_NOW_FALLBACK,
-    DEFAULT_NEXT_FALLBACK,
-    DEFAULT_PERSON_ONE_NAME,
-    DEFAULT_PERSON_TWO_NAME,
-    DEFAULT_PRESET_1_MINUTES,
-    DEFAULT_PRESET_2_MINUTES,
-    DEFAULT_PRESET_3_MINUTES,
-    DEFAULT_REQUEST_NOTIFICATION_TITLE,
-    DEFAULT_REQUEST_NOTIFICATIONS,
-    DEFAULT_TIMER_NOTIFICATION_TITLE,
-    DEFAULT_TIMER_NOTIFICATIONS,
-    DOMAIN,
-)
+from .const import *
 
 
 def _user_schema() -> vol.Schema:
@@ -58,10 +23,6 @@ def _user_schema() -> vol.Schema:
 def _options_schema(options: dict | None = None) -> vol.Schema:
     options = options or {}
     return vol.Schema({
-        vol.Optional(CONF_SPECIAL_CHANGE_TEXT, default=options.get(CONF_SPECIAL_CHANGE_TEXT)): selector.EntitySelector(selector.EntitySelectorConfig(domain="input_text")),
-        vol.Optional(CONF_DINNER_TEXT, default=options.get(CONF_DINNER_TEXT)): selector.EntitySelector(selector.EntitySelectorConfig(domain="input_text")),
-        vol.Optional(CONF_BEDTIME_HELPER, default=options.get(CONF_BEDTIME_HELPER)): selector.EntitySelector(selector.EntitySelectorConfig(domain="input_datetime")),
-        vol.Optional(CONF_SCHOOL_TOMORROW, default=options.get(CONF_SCHOOL_TOMORROW)): selector.EntitySelector(selector.EntitySelectorConfig(domain="input_boolean")),
         vol.Optional(CONF_NOW_FALLBACK, default=options.get(CONF_NOW_FALLBACK, DEFAULT_NOW_FALLBACK)): str,
         vol.Optional(CONF_NEXT_FALLBACK, default=options.get(CONF_NEXT_FALLBACK, DEFAULT_NEXT_FALLBACK)): str,
         vol.Optional(CONF_LATER_FALLBACK, default=options.get(CONF_LATER_FALLBACK, DEFAULT_LATER_FALLBACK)): str,

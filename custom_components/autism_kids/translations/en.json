@@ -24,12 +24,8 @@
     "step": {
       "init": {
         "title": "Board options",
-        "description": "Choose optional helpers, fallback text, request notifications, and timer settings.",
+        "description": "Choose fallback text, request notifications, and timer settings.",
         "data": {
-          "special_change_text": "Special change input_text",
-          "dinner_text": "Dinner input_text",
-          "bedtime_helper": "Bedtime input_datetime",
-          "school_tomorrow": "School tomorrow input_boolean",
           "now_fallback": "Now fallback text",
           "next_fallback": "Next fallback text",
           "later_fallback": "Later fallback text",

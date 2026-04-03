@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import time, timedelta
 from logging import getLogger
 from typing import Any
 
@@ -10,26 +10,7 @@ from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.util import dt as dt_util
 
-from .const import (
-    CONF_BEDTIME_HELPER,
-    CONF_DINNER_TEXT,
-    CONF_FAMILY_CALENDAR,
-    CONF_KID_CALENDAR,
-    CONF_PERSON_ONE,
-    CONF_PERSON_TWO,
-    CONF_REQUEST_NOTIFICATION_TITLE,
-    CONF_REQUEST_NOTIFICATIONS,
-    CONF_SCHOOL_TOMORROW,
-    CONF_SPECIAL_CHANGE_TEXT,
-    CONF_TIMER_NOTIFICATION_TITLE,
-    CONF_TIMER_NOTIFICATIONS,
-    CONF_WEATHER,
-    DEFAULT_REQUEST_NOTIFICATION_TITLE,
-    DEFAULT_REQUEST_NOTIFICATIONS,
-    DEFAULT_TIMER_NOTIFICATION_TITLE,
-    DEFAULT_TIMER_NOTIFICATIONS,
-    DOMAIN,
-)
+from .const import *
 
 _LOGGER = getLogger(__name__)
 
@@ -55,6 +36,10 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             "timer_pause_remaining": None,
             "timer_finish_notified": False,
             "custom_timer_minutes": 5.0,
+            DATA_SPECIAL_CHANGE_TEXT: "No special changes today",
+            DATA_DINNER_TEXT: "Dinner not set",
+            DATA_BEDTIME: time(20, 30),
+            DATA_SCHOOL_TOMORROW: True,
         }
 
     async def _async_update_data(self) -> dict[str, Any]:
@@ -88,15 +73,9 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             self.entry.data.get(CONF_PERSON_ONE),
             self.entry.data.get(CONF_PERSON_TWO),
             self.entry.data.get(CONF_WEATHER),
-            self.entry.options.get(CONF_SPECIAL_CHANGE_TEXT),
-            self.entry.options.get(CONF_DINNER_TEXT),
-            self.entry.options.get(CONF_BEDTIME_HELPER),
-            self.entry.options.get(CONF_SCHOOL_TOMORROW),
         ]
         for entity_id in [entity for entity in entities if entity]:
-            self._remove_listeners.append(
-                async_track_state_change_event(self.hass, [entity_id], self._handle_source_update)
-            )
+            self._remove_listeners.append(async_track_state_change_event(self.hass, [entity_id], self._handle_source_update))
 
     @callback
     def _handle_source_update(self, event: Any) -> None:
@@ -139,6 +118,26 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     def async_cancel_timer(self) -> None:
         current = self.data if isinstance(self.data, dict) else self._default_data()
         self.async_set_updated_data({**current, "timer_running": False, "timer_paused": False, "timer_finished": False, "timer_remaining_seconds": current.get("timer_duration_seconds", 0), "timer_end": None, "timer_pause_remaining": None, "timer_finish_notified": False})
+
+    @callback
+    def async_set_special_change_text(self, value: str) -> None:
+        current = self.data if isinstance(self.data, dict) else self._default_data()
+        self.async_set_updated_data({**current, DATA_SPECIAL_CHANGE_TEXT: value})
+
+    @callback
+    def async_set_dinner_text(self, value: str) -> None:
+        current = self.data if isinstance(self.data, dict) else self._default_data()
+        self.async_set_updated_data({**current, DATA_DINNER_TEXT: value})
+
+    @callback
+    def async_set_bedtime(self, value: time) -> None:
+        current = self.data if isinstance(self.data, dict) else self._default_data()
+        self.async_set_updated_data({**current, DATA_BEDTIME: value})
+
+    @callback
+    def async_set_school_tomorrow(self, value: bool) -> None:
+        current = self.data if isinstance(self.data, dict) else self._default_data()
+        self.async_set_updated_data({**current, DATA_SCHOOL_TOMORROW: value})
 
     async def _async_send_timer_notification(self, label: str) -> None:
         if not self.entry.options.get(CONF_TIMER_NOTIFICATIONS, DEFAULT_TIMER_NOTIFICATIONS):

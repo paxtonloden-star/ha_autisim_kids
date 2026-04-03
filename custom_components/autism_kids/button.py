@@ -5,20 +5,11 @@ from typing import Awaitable, Callable
 
 from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import (
-    CONF_PRESET_1_MINUTES,
-    CONF_PRESET_2_MINUTES,
-    CONF_PRESET_3_MINUTES,
-    DEFAULT_PRESET_1_MINUTES,
-    DEFAULT_PRESET_2_MINUTES,
-    DEFAULT_PRESET_3_MINUTES,
-    DOMAIN,
-)
+from .const import *
 from .coordinator import AutismKidsCoordinator
 
 
@@ -32,81 +23,24 @@ async def _request(coordinator: AutismKidsCoordinator, label: str) -> None:
     await coordinator.async_send_request_notification(label)
 
 
-async def _press_request_help(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Help")
-
-
-async def _press_request_drink(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Drink")
-
-
-async def _press_request_snack(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Snack")
-
-
-async def _press_request_bathroom(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Bathroom")
-
-
-async def _press_request_break(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Break")
-
-
-async def _press_request_hug(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Hug")
-
-
-async def _press_request_quiet(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Quiet")
-
-
-async def _press_request_too_loud(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Too Loud")
-
-
-async def _press_request_mad(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Mad")
-
-
-async def _press_request_sad(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "Sad")
-
-
-async def _press_request_all_done(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    await _request(coordinator, "All Done")
-
-
-async def _press_start_preset_1(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    minutes = float(entry.options.get(CONF_PRESET_1_MINUTES, DEFAULT_PRESET_1_MINUTES))
-    coordinator.async_start_timer(minutes, f"{int(minutes)} Minute Timer")
-
-
-async def _press_start_preset_2(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    minutes = float(entry.options.get(CONF_PRESET_2_MINUTES, DEFAULT_PRESET_2_MINUTES))
-    coordinator.async_start_timer(minutes, f"{int(minutes)} Minute Timer")
-
-
-async def _press_start_preset_3(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    minutes = float(entry.options.get(CONF_PRESET_3_MINUTES, DEFAULT_PRESET_3_MINUTES))
-    coordinator.async_start_timer(minutes, f"{int(minutes)} Minute Timer")
-
-
-async def _press_start_custom(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    minutes = float(coordinator.data.get("custom_timer_minutes", 5.0))
-    coordinator.async_start_timer(minutes, f"{int(minutes)} Minute Timer")
-
-
-async def _press_pause_timer(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    coordinator.async_pause_timer()
-
-
-async def _press_resume_timer(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    coordinator.async_resume_timer()
-
-
-async def _press_cancel_timer(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None:
-    coordinator.async_cancel_timer()
-
+async def _press_request_help(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Help")
+async def _press_request_drink(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Drink")
+async def _press_request_snack(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Snack")
+async def _press_request_bathroom(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Bathroom")
+async def _press_request_break(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Break")
+async def _press_request_hug(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Hug")
+async def _press_request_quiet(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Quiet")
+async def _press_request_too_loud(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Too Loud")
+async def _press_request_mad(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Mad")
+async def _press_request_sad(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "Sad")
+async def _press_request_all_done(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: await _request(coordinator, "All Done")
+async def _press_start_preset_1(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: coordinator.async_start_timer(float(entry.options.get(CONF_PRESET_1_MINUTES, DEFAULT_PRESET_1_MINUTES)), f"{int(float(entry.options.get(CONF_PRESET_1_MINUTES, DEFAULT_PRESET_1_MINUTES)))} Minute Timer")
+async def _press_start_preset_2(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: coordinator.async_start_timer(float(entry.options.get(CONF_PRESET_2_MINUTES, DEFAULT_PRESET_2_MINUTES)), f"{int(float(entry.options.get(CONF_PRESET_2_MINUTES, DEFAULT_PRESET_2_MINUTES)))} Minute Timer")
+async def _press_start_preset_3(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: coordinator.async_start_timer(float(entry.options.get(CONF_PRESET_3_MINUTES, DEFAULT_PRESET_3_MINUTES)), f"{int(float(entry.options.get(CONF_PRESET_3_MINUTES, DEFAULT_PRESET_3_MINUTES)))} Minute Timer")
+async def _press_start_custom(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: coordinator.async_start_timer(float(coordinator.data.get("custom_timer_minutes", 5.0)), f"{int(float(coordinator.data.get('custom_timer_minutes', 5.0)))} Minute Timer")
+async def _press_pause_timer(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: coordinator.async_pause_timer()
+async def _press_resume_timer(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: coordinator.async_resume_timer()
+async def _press_cancel_timer(coordinator: AutismKidsCoordinator, entry: ConfigEntry) -> None: coordinator.async_cancel_timer()
 
 BUTTONS = (
     AutismKidsButtonDescription(key="request_help", name="Request Help", icon="mdi:help-circle", press_fn=_press_request_help),
@@ -130,7 +64,7 @@ BUTTONS = (
 )
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
+async def async_setup_entry(hass, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
     coordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_entities(AutismKidsActionButton(coordinator, entry, description) for description in BUTTONS)
 

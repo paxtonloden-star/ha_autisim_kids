@@ -3,7 +3,6 @@ from __future__ import annotations
 from homeassistant.components.number import NumberEntity, NumberEntityDescription, RestoreNumber
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfTime
-from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -11,11 +10,10 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN
 from .coordinator import AutismKidsCoordinator
 
-
 NUMBER_DESCRIPTION = NumberEntityDescription(key="custom_timer_minutes", name="Custom Timer Minutes", icon="mdi:timer-cog-outline")
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
+async def async_setup_entry(hass, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
     coordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_entities([AutismKidsCustomTimerNumber(coordinator, entry)])
 
