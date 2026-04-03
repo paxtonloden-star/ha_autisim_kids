@@ -1,0 +1,27 @@
+title: Visual Calendar
+path: visual-calendar
+icon: mdi:calendar-month
+cards:
+  - type: markdown
+    content: |
+      # Visual Calendar
+      **Morning:** {{ states('sensor.kid_visual_morning') }}
+      **Afternoon:** {{ states('sensor.kid_visual_afternoon') }}
+      **Evening:** {{ states('sensor.kid_visual_evening') }}
+      **Tomorrow:** {{ states('sensor.kid_visual_tomorrow') }}
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: tile
+        entity: text.visual_morning
+        name: Edit Morning
+      - type: tile
+        entity: text.visual_afternoon
+        name: Edit Afternoon
+      - type: tile
+        entity: text.visual_evening
+        name: Edit Evening
+      - type: tile
+        entity: text.visual_tomorrow
+        name: Edit Tomorrow

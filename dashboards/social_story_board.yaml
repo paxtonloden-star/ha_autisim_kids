@@ -1,0 +1,44 @@
+title: Social Story Board
+path: social-story-board
+icon: mdi:book-open-page-variant
+cards:
+  - type: markdown
+    content: |
+      # Social Story Board
+      **Story:** {{ states('sensor.kid_story_name') }}
+      **Step:** {{ states('sensor.kid_story_step') }}
+      **Text:** {{ states('sensor.kid_story_step_text') }}
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: tile
+        entity: select.story_select
+        name: Story
+      - type: tile
+        entity: sensor.kid_story_step_text
+        name: Current Step
+      - type: tile
+        entity: button.story_previous_step
+        name: Previous
+      - type: tile
+        entity: button.story_next_step
+        name: Next
+      - type: tile
+        entity: button.story_reset
+        name: Reset
+      - type: tile
+        entity: text.story_step_1
+        name: Edit Step 1
+      - type: tile
+        entity: text.story_step_2
+        name: Edit Step 2
+      - type: tile
+        entity: text.story_step_3
+        name: Edit Step 3
+      - type: tile
+        entity: text.story_step_4
+        name: Edit Step 4
+      - type: tile
+        entity: text.story_step_5
+        name: Edit Step 5

@@ -1,5 +1,5 @@
 DOMAIN = "autism_kids"
-PLATFORMS = ["sensor", "button", "number", "text", "time", "switch"]
+PLATFORMS = ["sensor", "button", "number", "text", "time", "switch", "select"]
 
 CONF_KID_CALENDAR = "kid_calendar"
 CONF_FAMILY_CALENDAR = "family_calendar"
@@ -23,6 +23,29 @@ DATA_SPECIAL_CHANGE_TEXT = "special_change_text"
 DATA_DINNER_TEXT = "dinner_text"
 DATA_BEDTIME = "bedtime"
 DATA_SCHOOL_TOMORROW = "school_tomorrow"
+DATA_FEELING = "feeling"
+DATA_FEELING_TIME = "feeling_time"
+DATA_FEELING_INTENSITY = "feeling_intensity"
+DATA_CALM_ACTIVE = "calm_active"
+DATA_CALM_STATUS = "calm_status"
+DATA_CALM_STEP_1 = "calm_step_1"
+DATA_CALM_STEP_2 = "calm_step_2"
+DATA_CALM_STEP_3 = "calm_step_3"
+DATA_CALM_STEP_4 = "calm_step_4"
+DATA_STORY_NAME = "story_name"
+DATA_STORY_STEP = "story_step"
+DATA_STORY_STEP_1 = "story_step_1"
+DATA_STORY_STEP_2 = "story_step_2"
+DATA_STORY_STEP_3 = "story_step_3"
+DATA_STORY_STEP_4 = "story_step_4"
+DATA_STORY_STEP_5 = "story_step_5"
+DATA_VISUAL_MORNING = "visual_morning"
+DATA_VISUAL_AFTERNOON = "visual_afternoon"
+DATA_VISUAL_EVENING = "visual_evening"
+DATA_VISUAL_TOMORROW = "visual_tomorrow"
+
+FEELING_OPTIONS = ["Okay", "Happy", "Sad", "Mad", "Worried", "Tired", "Overwhelmed", "Excited", "Calm"]
+STORY_OPTIONS = ["Getting Ready", "Doctor Visit", "Bedtime", "Leaving House", "Haircut"]
 
 DEFAULT_PERSON_ONE_NAME = "Mom"
 DEFAULT_PERSON_TWO_NAME = "Dad"

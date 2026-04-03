@@ -40,6 +40,26 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             DATA_DINNER_TEXT: "Dinner not set",
             DATA_BEDTIME: time(20, 30),
             DATA_SCHOOL_TOMORROW: True,
+            DATA_FEELING: "Okay",
+            DATA_FEELING_TIME: "Not set",
+            DATA_FEELING_INTENSITY: 3.0,
+            DATA_CALM_ACTIVE: False,
+            DATA_CALM_STATUS: "Not active",
+            DATA_CALM_STEP_1: "Take deep breaths",
+            DATA_CALM_STEP_2: "Squeeze a pillow",
+            DATA_CALM_STEP_3: "Sit quietly",
+            DATA_CALM_STEP_4: "Ask for help",
+            DATA_STORY_NAME: STORY_OPTIONS[0],
+            DATA_STORY_STEP: 1,
+            DATA_STORY_STEP_1: "First, we get ready.",
+            DATA_STORY_STEP_2: "Next, we stay calm.",
+            DATA_STORY_STEP_3: "Then, we listen.",
+            DATA_STORY_STEP_4: "After that, we finish.",
+            DATA_STORY_STEP_5: "Finally, we are all done.",
+            DATA_VISUAL_MORNING: "Breakfast",
+            DATA_VISUAL_AFTERNOON: "School",
+            DATA_VISUAL_EVENING: "Dinner",
+            DATA_VISUAL_TOMORROW: "Tomorrow is a school day",
         }
 
     async def _async_update_data(self) -> dict[str, Any]:
@@ -83,14 +103,52 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.async_set_updated_data({**current, "last_update": self.hass.loop.time()})
 
     @callback
+    def async_set_data_value(self, key: str, value: Any) -> None:
+        current = self.data if isinstance(self.data, dict) else self._default_data()
+        self.async_set_updated_data({**current, key: value})
+
+    @callback
     def async_set_last_request(self, request_label: str) -> None:
         current = self.data if isinstance(self.data, dict) else self._default_data()
         self.async_set_updated_data({**current, "last_update": self.hass.loop.time(), "last_request": request_label, "last_request_time": dt_util.now().strftime("%-I:%M %p")})
 
     @callback
     def async_set_custom_timer_minutes(self, minutes: float) -> None:
+        self.async_set_data_value("custom_timer_minutes", minutes)
+
+    @callback
+    def async_set_feeling(self, feeling: str) -> None:
         current = self.data if isinstance(self.data, dict) else self._default_data()
-        self.async_set_updated_data({**current, "custom_timer_minutes": minutes})
+        self.async_set_updated_data({**current, DATA_FEELING: feeling, DATA_FEELING_TIME: dt_util.now().strftime("%-I:%M %p")})
+
+    @callback
+    def async_start_calm_corner(self) -> None:
+        current = self.data if isinstance(self.data, dict) else self._default_data()
+        self.async_set_updated_data({**current, DATA_CALM_ACTIVE: True, DATA_CALM_STATUS: "Calm corner started"})
+
+    @callback
+    def async_finish_calm_corner(self) -> None:
+        current = self.data if isinstance(self.data, dict) else self._default_data()
+        self.async_set_updated_data({**current, DATA_CALM_ACTIVE: False, DATA_CALM_STATUS: "Calm corner finished"})
+
+    @callback
+    def async_calm_need_help(self) -> None:
+        current = self.data if isinstance(self.data, dict) else self._default_data()
+        self.async_set_updated_data({**current, DATA_CALM_ACTIVE: True, DATA_CALM_STATUS: "Needs more help"})
+
+    @callback
+    def async_next_story_step(self) -> None:
+        step = min(int((self.data or {}).get(DATA_STORY_STEP, 1)) + 1, 5)
+        self.async_set_data_value(DATA_STORY_STEP, step)
+
+    @callback
+    def async_previous_story_step(self) -> None:
+        step = max(int((self.data or {}).get(DATA_STORY_STEP, 1)) - 1, 1)
+        self.async_set_data_value(DATA_STORY_STEP, step)
+
+    @callback
+    def async_reset_story(self) -> None:
+        self.async_set_data_value(DATA_STORY_STEP, 1)
 
     @callback
     def async_start_timer(self, minutes: float, label: str) -> None:
@@ -118,26 +176,6 @@ class AutismKidsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     def async_cancel_timer(self) -> None:
         current = self.data if isinstance(self.data, dict) else self._default_data()
         self.async_set_updated_data({**current, "timer_running": False, "timer_paused": False, "timer_finished": False, "timer_remaining_seconds": current.get("timer_duration_seconds", 0), "timer_end": None, "timer_pause_remaining": None, "timer_finish_notified": False})
-
-    @callback
-    def async_set_special_change_text(self, value: str) -> None:
-        current = self.data if isinstance(self.data, dict) else self._default_data()
-        self.async_set_updated_data({**current, DATA_SPECIAL_CHANGE_TEXT: value})
-
-    @callback
-    def async_set_dinner_text(self, value: str) -> None:
-        current = self.data if isinstance(self.data, dict) else self._default_data()
-        self.async_set_updated_data({**current, DATA_DINNER_TEXT: value})
-
-    @callback
-    def async_set_bedtime(self, value: time) -> None:
-        current = self.data if isinstance(self.data, dict) else self._default_data()
-        self.async_set_updated_data({**current, DATA_BEDTIME: value})
-
-    @callback
-    def async_set_school_tomorrow(self, value: bool) -> None:
-        current = self.data if isinstance(self.data, dict) else self._default_data()
-        self.async_set_updated_data({**current, DATA_SCHOOL_TOMORROW: value})
 
     async def _async_send_timer_notification(self, label: str) -> None:
         if not self.entry.options.get(CONF_TIMER_NOTIFICATIONS, DEFAULT_TIMER_NOTIFICATIONS):

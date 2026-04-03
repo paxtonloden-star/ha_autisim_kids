@@ -1,0 +1,41 @@
+title: Feelings Station
+path: feelings-station
+icon: mdi:emoticon-outline
+cards:
+  - type: markdown
+    content: |
+      # Feelings Station
+      **Feeling:** {{ states('sensor.kid_feeling') }}
+      **When:** {{ states('sensor.kid_feeling_time') }}
+      **Intensity:** {{ states('number.feeling_intensity') }}
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: tile
+        entity: button.feel_happy
+        name: Happy
+      - type: tile
+        entity: button.feel_sad
+        name: Sad
+      - type: tile
+        entity: button.feel_mad
+        name: Mad
+      - type: tile
+        entity: button.feel_worried
+        name: Worried
+      - type: tile
+        entity: button.feel_tired
+        name: Tired
+      - type: tile
+        entity: button.feel_overwhelmed
+        name: Overwhelmed
+      - type: tile
+        entity: button.feel_excited
+        name: Excited
+      - type: tile
+        entity: select.feeling_select
+        name: Select Feeling
+      - type: tile
+        entity: number.feeling_intensity
+        name: Intensity

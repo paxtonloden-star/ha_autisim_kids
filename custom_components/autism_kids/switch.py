@@ -11,11 +11,9 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DATA_SCHOOL_TOMORROW, DOMAIN
 from .coordinator import AutismKidsCoordinator
 
-
 async def async_setup_entry(hass, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
     coordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_entities([AutismKidsSchoolTomorrowSwitch(coordinator, entry)])
-
 
 class AutismKidsSchoolTomorrowSwitch(CoordinatorEntity[AutismKidsCoordinator], RestoreEntity, SwitchEntity):
     _attr_name = "School Tomorrow"
@@ -35,16 +33,16 @@ class AutismKidsSchoolTomorrowSwitch(CoordinatorEntity[AutismKidsCoordinator], R
         await super().async_added_to_hass()
         last_state = await self.async_get_last_state()
         if last_state is not None:
-            self.coordinator.async_set_school_tomorrow(last_state.state == "on")
+            self.coordinator.async_set_data_value(DATA_SCHOOL_TOMORROW, last_state.state == "on")
 
     @property
     def is_on(self) -> bool:
         return bool(self.coordinator.data.get(DATA_SCHOOL_TOMORROW, True))
 
     async def async_turn_on(self, **kwargs) -> None:
-        self.coordinator.async_set_school_tomorrow(True)
+        self.coordinator.async_set_data_value(DATA_SCHOOL_TOMORROW, True)
         self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs) -> None:
-        self.coordinator.async_set_school_tomorrow(False)
+        self.coordinator.async_set_data_value(DATA_SCHOOL_TOMORROW, False)
         self.async_write_ha_state()

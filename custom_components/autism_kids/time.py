@@ -13,11 +13,9 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DATA_BEDTIME, DOMAIN
 from .coordinator import AutismKidsCoordinator
 
-
 async def async_setup_entry(hass, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
     coordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_entities([AutismKidsBedtimeTime(coordinator, entry)])
-
 
 class AutismKidsBedtimeTime(CoordinatorEntity[AutismKidsCoordinator], RestoreEntity, TimeEntity):
     _attr_name = "Bedtime"
@@ -47,5 +45,5 @@ class AutismKidsBedtimeTime(CoordinatorEntity[AutismKidsCoordinator], RestoreEnt
         return self.coordinator.data.get(DATA_BEDTIME)
 
     async def async_set_value(self, value: time) -> None:
-        self.coordinator.async_set_bedtime(value)
+        self.coordinator.async_set_data_value(DATA_BEDTIME, value)
         self.async_write_ha_state()

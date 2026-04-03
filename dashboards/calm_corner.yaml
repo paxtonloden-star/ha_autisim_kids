@@ -1,0 +1,34 @@
+title: Calm Corner
+path: calm-corner
+icon: mdi:meditation
+cards:
+  - type: markdown
+    content: |
+      # Calm Corner
+      **Status:** {{ states('sensor.kid_calm_status') }}
+      1. {{ states('text.calm_step_1') }}
+      2. {{ states('text.calm_step_2') }}
+      3. {{ states('text.calm_step_3') }}
+      4. {{ states('text.calm_step_4') }}
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: tile
+        entity: button.start_calm_corner
+        name: Start Calm
+      - type: tile
+        entity: button.calm_corner_finished
+        name: Finished
+      - type: tile
+        entity: button.calm_corner_need_help
+        name: Need Help
+      - type: tile
+        entity: button.start_5_minute_timer
+        name: 5 Min Timer
+      - type: tile
+        entity: sensor.kid_timer_remaining
+        name: Timer Remaining
+      - type: tile
+        entity: sensor.kid_timer_status
+        name: Timer Status
