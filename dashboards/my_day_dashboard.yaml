@@ -1,0 +1,33 @@
+title: My Day
+path: my-day
+icon: mdi:home-heart
+cards:
+  - type: markdown
+    content: |
+      # My Day
+      ## Now: **{{ states('sensor.kid_now_activity') }}**
+      ### Next: **{{ states('sensor.kid_next_activity') }}**
+      ### Later: **{{ states('sensor.kid_later_activity') }}**
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: tile
+        entity: sensor.kid_who_is_home
+        name: Who is home
+      - type: tile
+        entity: sensor.kid_special_change_summary
+        name: Special change
+      - type: tile
+        entity: sensor.kid_dinner_summary
+        name: Dinner
+      - type: tile
+        entity: sensor.kid_bedtime_summary
+        name: Bedtime
+      - type: tile
+        entity: sensor.kid_school_tomorrow_summary
+        name: Tomorrow
+      - type: tile
+        entity: sensor.kid_weather_summary
+        name: Weather

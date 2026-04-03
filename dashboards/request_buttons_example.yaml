@@ -1,0 +1,41 @@
+title: I Need
+path: i-need
+icon: mdi:gesture-tap-button
+cards:
+  - type: markdown
+    content: |
+      # I Need
+      Last request: **{{ states('sensor.kid_last_request') }}**
+      Time: **{{ states('sensor.kid_last_request_time') }}**
+
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: tile
+        entity: button.request_help
+        name: Help
+      - type: tile
+        entity: button.request_drink
+        name: Drink
+      - type: tile
+        entity: button.request_snack
+        name: Snack
+      - type: tile
+        entity: button.request_bathroom
+        name: Bathroom
+      - type: tile
+        entity: button.request_break
+        name: Break
+      - type: tile
+        entity: button.request_hug
+        name: Hug
+      - type: tile
+        entity: button.request_quiet
+        name: Quiet
+      - type: tile
+        entity: button.request_too_loud
+        name: Too Loud
+      - type: tile
+        entity: button.request_all_done
+        name: All Done
