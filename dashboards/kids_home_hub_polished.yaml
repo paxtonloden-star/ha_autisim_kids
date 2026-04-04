@@ -1,0 +1,228 @@
+title: Kids Home Hub
+views:
+  - title: Home
+    path: kids-home
+    icon: mdi:home-heart
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        cards:
+          - type: markdown
+            content: |
+              # My Day
+              ## **Now:** {{ states('sensor.kid_now_activity') }}
+              **Next:** {{ states('sensor.kid_next_activity') }}  
+              **Later:** {{ states('sensor.kid_later_activity') }}
+            card_size: 4
+          - type: tile
+            entity: sensor.kid_special_change_summary
+            name: Today Is Different
+            icon: mdi:calendar-star
+            color: amber
+          - type: tile
+            entity: sensor.kid_who_is_home
+            name: Who Is Home
+            icon: mdi:account-group
+          - type: tile
+            entity: sensor.kid_weather_summary
+            name: Weather
+            icon: mdi:weather-partly-cloudy
+          - type: tile
+            entity: sensor.kid_dinner_summary
+            name: Dinner
+            icon: mdi:silverware-fork-knife
+          - type: tile
+            entity: sensor.kid_bedtime_summary
+            name: Bedtime
+            icon: mdi:bed-clock
+          - type: tile
+            entity: sensor.kid_school_tomorrow_summary
+            name: Tomorrow
+            icon: mdi:school
+      - type: grid
+        cards:
+          - type: heading
+            heading: Quick Needs
+            icon: mdi:gesture-tap-button
+          - type: grid
+            columns: 3
+            square: false
+            cards:
+              - type: tile
+                entity: button.request_help
+                name: Help
+                color: red
+              - type: tile
+                entity: button.request_drink
+                name: Drink
+                color: blue
+              - type: tile
+                entity: button.request_break
+                name: Break
+                color: green
+              - type: tile
+                entity: button.request_bathroom
+                name: Bathroom
+                color: cyan
+              - type: tile
+                entity: button.request_quiet
+                name: Quiet
+                color: purple
+              - type: tile
+                entity: button.request_hug
+                name: Hug
+                color: pink
+      - type: grid
+        cards:
+          - type: heading
+            heading: Feelings
+            icon: mdi:emoticon-outline
+          - type: markdown
+            content: |
+              ## I Feel: **{{ states('sensor.kid_feeling') }}**
+              **When:** {{ states('sensor.kid_feeling_time') }}
+          - type: grid
+            columns: 3
+            square: false
+            cards:
+              - type: tile
+                entity: button.feel_happy
+                name: Happy
+                color: yellow
+              - type: tile
+                entity: button.feel_sad
+                name: Sad
+                color: blue
+              - type: tile
+                entity: button.feel_mad
+                name: Mad
+                color: red
+              - type: tile
+                entity: button.feel_worried
+                name: Worried
+                color: orange
+              - type: tile
+                entity: button.feel_tired
+                name: Tired
+                color: grey
+              - type: tile
+                entity: button.feel_excited
+                name: Excited
+                color: green
+  - title: Calm
+    path: kids-calm
+    icon: mdi:meditation
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: |
+              # Calm Corner
+              ## **{{ states('sensor.kid_calm_status') }}**
+              1. {{ states('text.calm_step_1') }}
+              2. {{ states('text.calm_step_2') }}
+              3. {{ states('text.calm_step_3') }}
+              4. {{ states('text.calm_step_4') }}
+          - type: grid
+            columns: 3
+            square: false
+            cards:
+              - type: tile
+                entity: button.start_calm_corner
+                name: Start Calm
+                color: teal
+              - type: tile
+                entity: button.start_5_minute_timer
+                name: 5 Minute Timer
+                color: cyan
+              - type: tile
+                entity: sensor.kid_timer_remaining
+                name: Time Left
+              - type: tile
+                entity: button.calm_corner_finished
+                name: I Am Calm
+                color: green
+              - type: tile
+                entity: button.calm_corner_need_help
+                name: Need Help
+                color: red
+              - type: tile
+                entity: sensor.kid_timer_status
+                name: Timer Status
+  - title: Calendar
+    path: kids-calendar
+    icon: mdi:calendar-month
+    type: sections
+    max_columns: 2
+    sections:
+      - type: grid
+        cards:
+          - type: markdown
+            content: |
+              # Visual Calendar
+              **Morning:** {{ states('sensor.kid_visual_morning') }}
+              
+              **Afternoon:** {{ states('sensor.kid_visual_afternoon') }}
+              
+              **Evening:** {{ states('sensor.kid_visual_evening') }}
+              
+              **Tomorrow:** {{ states('sensor.kid_visual_tomorrow') }}
+          - type: tile
+            entity: text.visual_morning
+            name: Edit Morning
+          - type: tile
+            entity: text.visual_afternoon
+            name: Edit Afternoon
+          - type: tile
+            entity: text.visual_evening
+            name: Edit Evening
+          - type: tile
+            entity: text.visual_tomorrow
+            name: Edit Tomorrow
+  - title: Story
+    path: kids-story
+    icon: mdi:book-open-page-variant
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: |
+              # Social Story
+              **Story:** {{ states('sensor.kid_story_name') }}
+              **Step:** {{ states('sensor.kid_story_step') }}
+              
+              ## {{ states('sensor.kid_story_step_text') }}
+          - type: grid
+            columns: 3
+            square: false
+            cards:
+              - type: tile
+                entity: select.story_select
+                name: Story
+              - type: tile
+                entity: button.story_previous_step
+                name: Back
+              - type: tile
+                entity: button.story_next_step
+                name: Next
+              - type: tile
+                entity: button.story_reset
+                name: Start Over
+              - type: tile
+                entity: text.story_step_1
+                name: Edit Step 1
+              - type: tile
+                entity: text.story_step_2
+                name: Edit Step 2
+              - type: tile
+                entity: text.story_step_3
+                name: Edit Step 3
+              - type: tile
+                entity: text.story_step_4
+                name: Edit Step 4
+              - type: tile
+                entity: text.story_step_5
+                name: Edit Step 5
