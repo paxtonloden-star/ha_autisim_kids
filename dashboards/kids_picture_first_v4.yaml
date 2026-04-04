@@ -1,0 +1,244 @@
+title: Kids Picture First V4
+views:
+  - title: Picture Day
+    path: picture-day
+    icon: mdi:image-multiple
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: My Day Pictures
+            icon: mdi:image-text
+          - type: picture
+            image: /local/autism_kids/morning.png
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+          - type: markdown
+            content: |
+              ## Morning
+              **{{ states('sensor.kid_visual_morning') }}**
+          - type: picture
+            image: /local/autism_kids/afternoon.png
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+          - type: markdown
+            content: |
+              ## Afternoon
+              **{{ states('sensor.kid_visual_afternoon') }}**
+          - type: picture
+            image: /local/autism_kids/evening.png
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+          - type: markdown
+            content: |
+              ## Evening
+              **{{ states('sensor.kid_visual_evening') }}**
+          - type: picture
+            image: /local/autism_kids/tomorrow.png
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+          - type: markdown
+            content: |
+              ## Tomorrow
+              **{{ states('sensor.kid_visual_tomorrow') }}**
+      - type: grid
+        cards:
+          - type: heading
+            heading: Quick Edit Words
+            icon: mdi:pencil
+          - type: tile
+            entity: text.visual_morning
+            name: Morning Word
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.visual_afternoon
+            name: Afternoon Word
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.visual_evening
+            name: Evening Word
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.visual_tomorrow
+            name: Tomorrow Word
+            tap_action:
+              action: more-info
+  - title: Picture Feelings
+    path: picture-feelings
+    icon: mdi:emoticon-happy-outline
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: |
+              # Pick a Feeling
+              **Current:** {{ states('sensor.kid_feeling') }}
+              **Intensity:** {{ states('number.feeling_intensity') }}
+          - type: grid
+            columns: 4
+            square: false
+            cards:
+              - type: picture
+                image: /local/autism_kids/feeling_happy.png
+                tap_action:
+                  action: perform-action
+                  perform_action: button.press
+                  target:
+                    entity_id: button.feel_happy
+              - type: picture
+                image: /local/autism_kids/feeling_sad.png
+                tap_action:
+                  action: perform-action
+                  perform_action: button.press
+                  target:
+                    entity_id: button.feel_sad
+              - type: picture
+                image: /local/autism_kids/feeling_mad.png
+                tap_action:
+                  action: perform-action
+                  perform_action: button.press
+                  target:
+                    entity_id: button.feel_mad
+              - type: picture
+                image: /local/autism_kids/feeling_worried.png
+                tap_action:
+                  action: perform-action
+                  perform_action: button.press
+                  target:
+                    entity_id: button.feel_worried
+              - type: picture
+                image: /local/autism_kids/feeling_tired.png
+                tap_action:
+                  action: perform-action
+                  perform_action: button.press
+                  target:
+                    entity_id: button.feel_tired
+              - type: picture
+                image: /local/autism_kids/feeling_overwhelmed.png
+                tap_action:
+                  action: perform-action
+                  perform_action: button.press
+                  target:
+                    entity_id: button.feel_overwhelmed
+              - type: picture
+                image: /local/autism_kids/feeling_excited.png
+                tap_action:
+                  action: perform-action
+                  perform_action: button.press
+                  target:
+                    entity_id: button.feel_excited
+              - type: tile
+                entity: number.feeling_intensity
+                name: Intensity
+                tap_action:
+                  action: more-info
+  - title: Picture Calm
+    path: picture-calm
+    icon: mdi:meditation
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: |
+              # Calm Corner
+              **{{ states('sensor.kid_calm_status') }}**
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: picture
+                image: /local/autism_kids/calm_breathe.png
+              - type: markdown
+                content: |
+                  ## 1
+                  {{ states('text.calm_step_1') }}
+              - type: picture
+                image: /local/autism_kids/calm_squeeze.png
+              - type: markdown
+                content: |
+                  ## 2
+                  {{ states('text.calm_step_2') }}
+              - type: picture
+                image: /local/autism_kids/calm_sit.png
+              - type: markdown
+                content: |
+                  ## 3
+                  {{ states('text.calm_step_3') }}
+              - type: picture
+                image: /local/autism_kids/calm_help.png
+              - type: markdown
+                content: |
+                  ## 4
+                  {{ states('text.calm_step_4') }}
+          - type: horizontal-stack
+            cards:
+              - type: button
+                entity: button.start_calm_corner
+                name: Start
+                icon_height: 72px
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.calm_corner_need_help
+                name: Help
+                icon_height: 72px
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.calm_corner_finished
+                name: Done
+                icon_height: 72px
+                tap_action:
+                  action: toggle
+  - title: Picture Story
+    path: picture-story
+    icon: mdi:book-open-page-variant
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: |
+              # Story Time
+              **Story:** {{ states('sensor.kid_story_name') }}
+              **Step:** {{ states('sensor.kid_story_step') }}
+          - type: picture
+            image: /local/autism_kids/story_current.png
+          - type: markdown
+            content: |
+              ## {{ states('sensor.kid_story_step_text') }}
+          - type: horizontal-stack
+            cards:
+              - type: button
+                entity: button.story_previous_step
+                name: Back
+                icon_height: 64px
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.story_next_step
+                name: Next
+                icon_height: 64px
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.story_reset
+                name: Start Over
+                icon_height: 64px
+                tap_action:
+                  action: toggle
