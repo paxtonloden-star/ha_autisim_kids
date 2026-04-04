@@ -1,0 +1,388 @@
+title: Kids Home Hub Visual V3
+views:
+  - title: Tap to Choose
+    path: tap-to-choose
+    icon: mdi:gesture-tap-button
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: |
+              # 🌈 Tap What You Need
+              Big buttons help make choices easy.
+          - type: grid
+            columns: 3
+            square: false
+            cards:
+              - type: button
+                entity: button.request_help
+                name: Help
+                icon: mdi:help-circle
+                icon_height: 72px
+                color: red
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: button
+                entity: button.request_drink
+                name: Drink
+                icon: mdi:cup-water
+                icon_height: 72px
+                color: blue
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: button
+                entity: button.request_snack
+                name: Snack
+                icon: mdi:food-apple
+                icon_height: 72px
+                color: amber
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: button
+                entity: button.request_bathroom
+                name: Bathroom
+                icon: mdi:toilet
+                icon_height: 72px
+                color: cyan
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: button
+                entity: button.request_break
+                name: Break
+                icon: mdi:sofa
+                icon_height: 72px
+                color: green
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: button
+                entity: button.request_quiet
+                name: Quiet
+                icon: mdi:volume-off
+                icon_height: 72px
+                color: purple
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: button
+                entity: button.request_hug
+                name: Hug
+                icon: mdi:heart
+                icon_height: 72px
+                color: pink
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: button
+                entity: button.request_too_loud
+                name: Too Loud
+                icon: mdi:ear-hearing-off
+                icon_height: 72px
+                color: deep-orange
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: button
+                entity: button.request_all_done
+                name: All Done
+                icon: mdi:check-circle
+                icon_height: 72px
+                color: teal
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+          - type: markdown
+            content: |
+              **Last request:** {{ states('sensor.kid_last_request') }}  
+              **Time:** {{ states('sensor.kid_last_request_time') }}
+  - title: Feelings Pictures
+    path: feelings-pictures
+    icon: mdi:emoticon-happy-outline
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Feelings
+            icon: mdi:emoticon-outline
+          - type: markdown
+            content: |
+              # 🙂 Pick a Feeling
+              **Current:** {{ states('sensor.kid_feeling') }}
+              **Intensity:** {{ states('number.feeling_intensity') }}
+          - type: grid
+            columns: 4
+            square: false
+            cards:
+              - type: button
+                entity: button.feel_happy
+                name: Happy
+                icon: mdi:emoticon-happy-outline
+                icon_height: 64px
+                color: yellow
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.feel_sad
+                name: Sad
+                icon: mdi:emoticon-sad-outline
+                icon_height: 64px
+                color: blue
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.feel_mad
+                name: Mad
+                icon: mdi:emoticon-angry-outline
+                icon_height: 64px
+                color: red
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.feel_worried
+                name: Worried
+                icon: mdi:emoticon-confused-outline
+                icon_height: 64px
+                color: orange
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.feel_tired
+                name: Tired
+                icon: mdi:emoticon-neutral-outline
+                icon_height: 64px
+                color: grey
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.feel_overwhelmed
+                name: Overwhelmed
+                icon: mdi:head-alert-outline
+                icon_height: 64px
+                color: deep-orange
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.feel_excited
+                name: Excited
+                icon: mdi:party-popper
+                icon_height: 64px
+                color: green
+                tap_action:
+                  action: toggle
+              - type: tile
+                entity: number.feeling_intensity
+                name: Intensity
+                color: amber
+                tap_action:
+                  action: more-info
+  - title: Calm Path
+    path: calm-path
+    icon: mdi:meditation
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: |
+              # 🫧 Calm Path
+              **{{ states('sensor.kid_calm_status') }}**
+
+              1. {{ states('text.calm_step_1') }}
+              2. {{ states('text.calm_step_2') }}
+              3. {{ states('text.calm_step_3') }}
+              4. {{ states('text.calm_step_4') }}
+          - type: horizontal-stack
+            cards:
+              - type: button
+                entity: button.start_calm_corner
+                name: Start
+                icon: mdi:play-circle
+                icon_height: 72px
+                color: teal
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.start_5_minute_timer
+                name: Timer
+                icon: mdi:timer-play
+                icon_height: 72px
+                color: cyan
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.calm_corner_need_help
+                name: Help
+                icon: mdi:lifebuoy
+                icon_height: 72px
+                color: red
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.calm_corner_finished
+                name: Done
+                icon: mdi:check-circle-outline
+                icon_height: 72px
+                color: green
+                tap_action:
+                  action: toggle
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: tile
+                entity: sensor.kid_timer_remaining
+                name: Time Left
+              - type: tile
+                entity: sensor.kid_timer_status
+                name: Timer Status
+  - title: Picture Ready Schedule
+    path: picture-ready-schedule
+    icon: mdi:image-text
+    type: sections
+    max_columns: 2
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Picture Ready Schedule
+            icon: mdi:image-multiple
+          - type: markdown
+            content: |
+              # 📅 Schedule Words
+              Add short words now.
+              Add matching pictures later.
+          - type: tile
+            entity: text.visual_morning
+            name: Morning Card
+            color: yellow
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.visual_afternoon
+            name: Afternoon Card
+            color: blue
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.visual_evening
+            name: Evening Card
+            color: purple
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.visual_tomorrow
+            name: Tomorrow Card
+            color: green
+            tap_action:
+              action: more-info
+      - type: grid
+        cards:
+          - type: markdown
+            content: |
+              ## Preview
+              **Morning:** {{ states('sensor.kid_visual_morning') }}
+
+              **Afternoon:** {{ states('sensor.kid_visual_afternoon') }}
+
+              **Evening:** {{ states('sensor.kid_visual_evening') }}
+
+              **Tomorrow:** {{ states('sensor.kid_visual_tomorrow') }}
+  - title: Story Steps
+    path: story-steps
+    icon: mdi:book-open-page-variant
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: |
+              # 📖 Story Steps
+              **Story:** {{ states('sensor.kid_story_name') }}
+              **Step:** {{ states('sensor.kid_story_step') }}
+
+              ## {{ states('sensor.kid_story_step_text') }}
+          - type: horizontal-stack
+            cards:
+              - type: button
+                entity: button.story_previous_step
+                name: Back
+                icon: mdi:arrow-left-bold-circle
+                icon_height: 64px
+                color: blue
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.story_next_step
+                name: Next
+                icon: mdi:arrow-right-bold-circle
+                icon_height: 64px
+                color: green
+                tap_action:
+                  action: toggle
+              - type: button
+                entity: button.story_reset
+                name: Start Over
+                icon: mdi:restart
+                icon_height: 64px
+                color: orange
+                tap_action:
+                  action: toggle
+          - type: tile
+            entity: select.story_select
+            name: Choose Story
+            tap_action:
+              action: more-info
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: tile
+                entity: text.story_step_1
+                name: Story Step 1
+                tap_action:
+                  action: more-info
+              - type: tile
+                entity: text.story_step_2
+                name: Story Step 2
+                tap_action:
+                  action: more-info
+              - type: tile
+                entity: text.story_step_3
+                name: Story Step 3
+                tap_action:
+                  action: more-info
+              - type: tile
+                entity: text.story_step_4
+                name: Story Step 4
+                tap_action:
+                  action: more-info
+              - type: tile
+                entity: text.story_step_5
+                name: Story Step 5
+                tap_action:
+                  action: more-info
