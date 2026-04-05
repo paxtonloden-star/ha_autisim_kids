@@ -1,0 +1,40 @@
+title: Clubhouse Theme
+views:
+  - title: Home
+    path: mickey-home
+    theme: autism_kids_mickey
+    cards:
+      - type: markdown
+        content: |
+          # Clubhouse Day
+          **Now:** {{ states('sensor.kid_now_activity') }}
+          **Next:** {{ states('sensor.kid_next_activity') }}
+          **Later:** {{ states('sensor.kid_later_activity') }}
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: button
+            entity: button.start_calm_corner
+            name: Start Calm
+            color: teal
+            tap_action:
+              action: toggle
+          - type: button
+            entity: button.start_5_minute_timer
+            name: Timer
+            color: cyan
+            tap_action:
+              action: toggle
+          - type: button
+            entity: button.story_next_step
+            name: Story Next
+            color: orange
+            tap_action:
+              action: toggle
+          - type: button
+            entity: button.request_help
+            name: Help
+            color: red
+            tap_action:
+              action: toggle
