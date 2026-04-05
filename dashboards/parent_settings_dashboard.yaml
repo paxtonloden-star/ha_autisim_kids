@@ -1,0 +1,135 @@
+title: Parent Settings
+views:
+  - title: Parent Controls
+    path: parent-controls
+    icon: mdi:cog-heart
+    theme: autism_kids_classic
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Theme Choice
+            icon: mdi:palette
+          - type: markdown
+            content: |
+              # Pick a Kid Theme
+              Open one of the theme dashboards from the sidebar.
+              Available themes in this repo:
+              - Classic
+              - Mickey-style
+              - Roblox-style
+          - type: button
+            name: Open Classic Dashboard
+            icon: mdi:star-circle
+            tap_action:
+              action: navigate
+              navigation_path: /kids-classic-theme/classic-home
+          - type: button
+            name: Open Mickey Dashboard
+            icon: mdi:mouse
+            tap_action:
+              action: navigate
+              navigation_path: /kids-mickey-theme/mickey-home
+          - type: button
+            name: Open Roblox Dashboard
+            icon: mdi:toy-brick
+            tap_action:
+              action: navigate
+              navigation_path: /kids-roblox-theme/roblox-home
+      - type: grid
+        cards:
+          - type: heading
+            heading: Daily Board Settings
+            icon: mdi:calendar-edit
+          - type: tile
+            entity: text.special_change_text
+            name: Special Change
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.dinner_text
+            name: Dinner Text
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: time.bedtime
+            name: Bedtime
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: switch.school_tomorrow
+            name: School Tomorrow
+            tap_action:
+              action: toggle
+          - type: tile
+            entity: text.visual_morning
+            name: Morning Card
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.visual_afternoon
+            name: Afternoon Card
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.visual_evening
+            name: Evening Card
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.visual_tomorrow
+            name: Tomorrow Card
+            tap_action:
+              action: more-info
+      - type: grid
+        cards:
+          - type: heading
+            heading: Calm and Story Settings
+            icon: mdi:book-cog
+          - type: tile
+            entity: text.calm_step_1
+            name: Calm Step 1
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.calm_step_2
+            name: Calm Step 2
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.calm_step_3
+            name: Calm Step 3
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.calm_step_4
+            name: Calm Step 4
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.story_step_1
+            name: Story Step 1
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.story_step_2
+            name: Story Step 2
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.story_step_3
+            name: Story Step 3
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.story_step_4
+            name: Story Step 4
+            tap_action:
+              action: more-info
+          - type: tile
+            entity: text.story_step_5
+            name: Story Step 5
+            tap_action:
+              action: more-info
